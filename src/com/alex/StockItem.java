@@ -38,15 +38,27 @@ public class StockItem implements Comparable<StockItem> {
         return quantityStock;
     }
 
+    public int getReserved() {
+        return reserved;
+    }
+
     public void adjustStock(int quantity) {
         int newQuantity = this.quantityStock + quantity;
         if (newQuantity >= 0) {
             this.quantityStock = newQuantity;
-            if(quantity < 0){this.reserved += -quantity;}
-//            System.out.println("\n\n" + "Reserved" + reserved + "\n\n");
-
         }
     }
+
+    public void adjustReservedStock(int quantity) {
+        int newReserved = this.reserved + quantity;
+        if ((this.quantityStock >= newReserved) && (newReserved >= 0)) {
+            this.reserved = newReserved;
+        } else {
+            System.out.println("We have problems with reserved");
+        }
+
+    }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -68,11 +80,11 @@ public class StockItem implements Comparable<StockItem> {
 
     @Override
     public int compareTo(StockItem o) {
-        System.out.println("Entering StockItem.compareTo");
-        if(this == o){
+//        System.out.println("Entering StockItem.compareTo");
+        if (this == o) {
             return 0;
         }
-        if(o != null){
+        if (o != null) {
             return this.name.compareTo(o.getName());
         }
         throw new NullPointerException();
