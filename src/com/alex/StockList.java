@@ -25,11 +25,13 @@ public class StockList {
         return 0;
     }
 
+
     public int changeReserveStock(String item, int quantity) {
         int reservedQuantity = 0;
         StockItem inStock = list.getOrDefault(item, null);
 
         if ((inStock != null) && (quantity != 0)) {
+
             if (quantity > 0) {
                 if (inStock.quantityInStock() - inStock.getReserved() >= quantity) {
                     reservedQuantity = quantity;
@@ -43,8 +45,10 @@ public class StockList {
                     reservedQuantity = -inStock.getReserved();
                 }
             }
+            inStock.adjustReservedStock(reservedQuantity);
         }
-        inStock.adjustReservedStock(reservedQuantity);
+
+
         return reservedQuantity;
     }
 

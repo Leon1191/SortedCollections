@@ -41,6 +41,8 @@ public class Main {
 //        for (String s : stockList.Items().keySet()) {
 //            System.out.println(s);
 //        }
+        System.out.println(stockList);
+
         Basket timsBasket = new Basket("Tim");
         reserveItem(timsBasket, "cup", 20);
         reserveItem(timsBasket, "car", 20);
@@ -52,9 +54,13 @@ public class Main {
 
         System.out.println(stockList.get("cup").getReserved());
 
-        unreserveItem(timsBasket, "car", 5);
+        unreserveItem(timsBasket, "car", 19);
         System.out.println(timsBasket);
-        System.out.println(stockList.get("cup").getReserved());
+//        System.out.println(stockList.get("cup").getReserved());
+
+        timsBasket.checkOut();
+        System.out.println(timsBasket);
+        System.out.println(stockList);
 
 //        reserveItem(timsBasket, "car", 1);
 //        System.out.println(timsBasket);
@@ -84,15 +90,27 @@ public class Main {
             System.out.println("We don't sell " + item);
             return 0;
         }
-        int reservedQuantity = stockList.changeReserveStock(item, quantity);
-        if (reservedQuantity != 0) {
-            basket.addToBasket(stockItem, quantity, reservedQuantity);
-            return quantity;
+        int quantityForReserve = quantity;
+
+        if (quantity < 0) {
+            int res = basket.ReservedItems().getOrDefault(stockItem, 0);
+            int inB = basket.Items().getOrDefault(stockItem, 0);
+            quantityForReserve = quantity + (inB - res);
+            if ((quantityForReserve > 0)||(-quantity > inB)) {
+                quantityForReserve = 0;
+            }
         }
-        return 0;
+        int reservedQuantity = stockList.changeReserveStock(item, quantityForReserve);
+
+        basket.addToBasket(stockItem, quantity, reservedQuantity);
+        return quantity;
     }
 
-    public static int unreserveItem(Basket basket, String item, int quantity)
-    {
-        return reserveItem(basket,item,-quantity);}
+    public static int unreserveItem(Basket basket, String item, int quantity) {
+        return reserveItem(basket, item, -quantity);
+    }
+
 }
+
+
+

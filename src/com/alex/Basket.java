@@ -19,7 +19,7 @@ public class Basket {
     public int addToBasket(StockItem item, int quantity, int reservedQuantity) {
         int inBasket = list.getOrDefault(item, 0);
         int inBasketReserved = listOfReserved.getOrDefault(item, 0);
-        if ((item != null) && (inBasket + quantity >= 0)) {
+        if ((item != null) && (inBasket + quantity >= 0) && (inBasketReserved + reservedQuantity >= 0)) {
             list.put(item, inBasket + quantity);
             listOfReserved.put(item, inBasketReserved + reservedQuantity);
             return inBasket;
@@ -29,6 +29,12 @@ public class Basket {
 
     public Map<StockItem, Integer> Items() {
         return Collections.unmodifiableMap(list);
+    }
+
+    public Map<StockItem, Integer> ReservedItems() {
+        return Collections.unmodifiableMap(listOfReserved);
+
+
     }
 
     @Override
@@ -44,5 +50,19 @@ public class Basket {
         }
 
         return s + "Total cost " + totalCost;
+    }
+
+    public void checkOut() {
+        for (Map.Entry<StockItem, Integer> item : listOfReserved.entrySet()) {
+
+            int sellReserve = -item.getValue();
+
+
+            item.getKey().adjustReservedStock(sellReserve);
+
+            item.getKey().adjustStock(sellReserve);
+        }
+        list.clear();
+        listOfReserved.clear();
     }
 }

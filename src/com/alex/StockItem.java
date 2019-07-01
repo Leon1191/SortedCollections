@@ -53,8 +53,9 @@ public class StockItem implements Comparable<StockItem> {
         int newReserved = this.reserved + quantity;
         if ((this.quantityStock >= newReserved) && (newReserved >= 0)) {
             this.reserved = newReserved;
+            System.out.println("\nNow reserved is " + this.reserved + "\n");
         } else {
-            System.out.println("We have problems with reserved");
+            System.out.println("We have problems with reserved "+this.reserved + quantity);
         }
 
     }
