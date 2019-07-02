@@ -50,17 +50,15 @@ public class Main {
 
         Basket tomsBasket = new Basket("Tom");
         reserveItem(tomsBasket, "cup", 20);
+        reserveItem(tomsBasket, "car", 2);
         System.out.println(tomsBasket);
-
-        System.out.println(stockList.get("cup").getReserved());
 
         unreserveItem(timsBasket, "car", 19);
         System.out.println(timsBasket);
-//        System.out.println(stockList.get("cup").getReserved());
 
-        timsBasket.checkOut();
-        System.out.println(timsBasket);
-        System.out.println(stockList);
+
+       checkOut(timsBasket);
+       checkOut(tomsBasket);
 
 //        reserveItem(timsBasket, "car", 1);
 //        System.out.println(timsBasket);
@@ -96,7 +94,7 @@ public class Main {
             int res = basket.ReservedItems().getOrDefault(stockItem, 0);
             int inB = basket.Items().getOrDefault(stockItem, 0);
             quantityForReserve = quantity + (inB - res);
-            if ((quantityForReserve > 0)||(-quantity > inB)) {
+            if ((quantityForReserve > 0) || (-quantity > inB)) {
                 quantityForReserve = 0;
             }
         }
@@ -110,6 +108,12 @@ public class Main {
         return reserveItem(basket, item, -quantity);
     }
 
+    public static void checkOut(Basket basket) {
+        System.out.println("\n" + basket.getName() + "'s basket is check out");
+        basket.checkOut();
+        System.out.println(basket);
+        System.out.println(stockList);
+    }
 }
 
 

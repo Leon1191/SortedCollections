@@ -3,8 +3,8 @@ package com.alex;
 public class StockItem implements Comparable<StockItem> {
     private final String name;
     private double price;
-    private int quantityStock = 0; //can be initialized later
-    private int reserved;
+    private int quantityStock; //can be initialized later
+    private int reserved = 0;
 
     public StockItem(String name, double price, int quantityStock) {
         this.name = name;
@@ -53,9 +53,9 @@ public class StockItem implements Comparable<StockItem> {
         int newReserved = this.reserved + quantity;
         if ((this.quantityStock >= newReserved) && (newReserved >= 0)) {
             this.reserved = newReserved;
-            System.out.println("\nNow reserved is " + this.reserved + "\n");
+//            System.out.println("\nNow reserved is " + this.reserved + "\n");
         } else {
-            System.out.println("We have problems with reserved "+this.reserved + quantity);
+            System.out.println("We have problems with reserved " + this.reserved + quantity);
         }
 
     }

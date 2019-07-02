@@ -16,6 +16,10 @@ public class Basket {
 
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int addToBasket(StockItem item, int quantity, int reservedQuantity) {
         int inBasket = list.getOrDefault(item, 0);
         int inBasketReserved = listOfReserved.getOrDefault(item, 0);
@@ -53,13 +57,10 @@ public class Basket {
     }
 
     public void checkOut() {
+
         for (Map.Entry<StockItem, Integer> item : listOfReserved.entrySet()) {
-
             int sellReserve = -item.getValue();
-
-
             item.getKey().adjustReservedStock(sellReserve);
-
             item.getKey().adjustStock(sellReserve);
         }
         list.clear();
